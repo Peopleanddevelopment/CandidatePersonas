@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inditex Italia — Candidato Persona</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --paper: #f7f3eb;
+      --deep: #07111f;
+      --panel: rgba(255,255,255,.76);
+      --panel-strong: #ffffff;
+      --line: rgba(17,24,39,.12);
+      --muted: #6b7280;
+      --accent: #0f4c5c;
+      --accent-2: #14b8a6;
+      --gold: #f6c453;
+      --green: #5b8c5a;
+      --orange: #e0924a;
+      --blue: #3d6b99;
+      --violet: #8b5e83;
+      --danger: #be123c;
+      --shadow: 0 24px 70px rgba(15, 23, 42, .16);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(20,184,166,.20), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(246,196,83,.24), transparent 24%),
+        radial-gradient(circle at 50% 110%, rgba(61,107,153,.18), transparent 35%),
+        var(--paper);
+      overflow-x: hidden;
+    }
+
+    button, input { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .48; }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(15,76,92,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,76,92,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    .app {
+      position: relative;
+      width: min(1180px, calc(100% - 28px));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .screen { display: none; animation: enter .42s ease both; }
+    .screen.active { display: block; }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(16px) scale(.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .hero {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(15,76,92,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.62);
+      color: var(--accent);
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 28px rgba(15,76,92,.08);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    .title {
+      margin-top: 22px;
+      max-width: 760px;
+      color: var(--deep);
+      font-size: clamp(42px, 6.8vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -.038em;
+      font-weight: 1000;
+    }
+
+    .title span { display: block; }
+    .title em { display: block; color: var(--accent); font-style: normal; }
+
+    .subtitle {
+      margin-top: 22px;
+      max-width: 650px;
+      color: #52525b;
+      font-size: 18px;
+      line-height: 1.72;
+      font-weight: 540;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .feature, .glass, .topbar, .map-panel, .quest-panel, .result-shell {
+      border: 1px solid rgba(17,24,39,.12);
+      background: rgba(255,255,255,.70);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .feature {
+      min-height: 96px;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 6px;
+    }
+
+    .feature span {
+      color: #5f6672;
+      font-size: 13px;
+      line-height: 1.42;
+      font-weight: 650;
+    }
+
+    .glass { border-radius: 34px; padding: 18px; }
+    .inner { border-radius: 26px; background: rgba(255,255,255,.70); padding: 28px; }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .mini {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .card-head h2 {
+      margin-top: 8px;
+      color: var(--deep);
+      font-size: 31px;
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 1000;
+    }
+
+    .avatar-orb {
+      width: 78px;
+      height: 78px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.70), transparent 30%),
+        linear-gradient(135deg, rgba(20,184,166,.25), rgba(246,196,83,.32));
+      font-size: 42px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.65);
+    }
+
+    .intro-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      background: #07111f;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, .14);
+    }
+
+    .intro-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #07111f;
+    }
+
+    .intro-video-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      padding: 24px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #0f4c5c, #07111f);
+    }
+
+    .intro-video-fallback strong { font-size: 15px; font-weight: 850; letter-spacing: -.01em; }
+    .intro-video-fallback span { font-size: 12px; opacity: .75; font-weight: 600; }
+    .intro-video.failed video { display: none; }
+    .intro-video.failed .intro-video-fallback { display: flex; }
+
+    .intro-video-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-direction: column;
+      background: linear-gradient(180deg, rgba(7,17,31,.05), rgba(7,17,31,.55));
+      color: #fff;
+      transition: opacity .35s ease;
+      cursor: pointer;
+      border: 0;
+      width: 100%;
+      padding: 0;
+      font: inherit;
+    }
+
+    .intro-video-play:hover .intro-video-play-icon { transform: scale(1.06); background: rgba(255,255,255,1); }
+
+    .intro-video-play-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      color: var(--deep);
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      box-shadow: 0 18px 44px rgba(7, 17, 31, .42);
+      transition: .25s ease;
+      padding-left: 5px;
+    }
+
+    .intro-video-play-label {
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .04em;
+      text-shadow: 0 2px 12px rgba(0,0,0,.45);
+    }
+
+    .intro-video.playing .intro-video-play { opacity: 0; pointer-events: none; }
+    .intro-video.failed .intro-video-play { display: none; }
+
+    .intro-video-caption {
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(7, 17, 31, .68);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .intro-video-caption::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(246, 196, 83, .22);
+    }
+
+    .start-card { border-radius: 38px; padding: 0; overflow: hidden; position: relative; }
+    .start-inner {
+      position: relative;
+      border-radius: 32px;
+      padding: 44px 32px 36px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(20,184,166,.18), transparent 55%),
+        radial-gradient(ellipse at 50% 100%, rgba(246,196,83,.16), transparent 55%),
+        rgba(255,255,255,.80);
+      overflow: hidden;
+    }
+    .start-glow {
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at 50% 50%, rgba(15,76,92,.10), transparent 50%);
+      pointer-events: none;
+      animation: rotateGlow 18s linear infinite;
+    }
+    @keyframes rotateGlow {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to   { transform: translateX(-50%) rotate(360deg); }
+    }
+    .start-orb {
+      position: relative;
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 50px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.85), transparent 35%),
+        linear-gradient(135deg, rgba(20,184,166,.40), rgba(246,196,83,.45));
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.70),
+        0 18px 44px rgba(15,76,92,.22),
+        0 0 0 8px rgba(255,255,255,.45);
+      animation: orbFloat 4.5s ease-in-out infinite;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-7px) rotate(2deg); }
+    }
+    .start-eyebrow {
+      position: relative;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .28em;
+      font-size: 11px;
+      font-weight: 950;
+      margin-bottom: 10px;
+    }
+    .start-title {
+      position: relative;
+      color: var(--deep);
+      font-size: clamp(34px, 4.4vw, 46px);
+      line-height: 1;
+      letter-spacing: -.045em;
+      font-weight: 1000;
+      margin-bottom: 14px;
+    }
+    .start-sub {
+      position: relative;
+      max-width: 380px;
+      margin: 0 auto 26px;
+      color: #52525b;
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+    .start-meta {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 28px;
+      padding: 16px 12px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(17,24,39,.08);
+    }
+    .start-meta-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .start-meta-item span {
+      color: var(--deep);
+      font-size: 22px;
+      font-weight: 1000;
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .start-meta-item small {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .start-meta-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(17,24,39,.10);
+    }
+    .start-cta {
+      position: relative;
+      width: 100%;
+      margin-top: 0;
+      padding: 17px 22px;
+      font-size: 15px;
+      letter-spacing: .02em;
+      box-shadow:
+        0 18px 36px rgba(15,76,92,.28),
+        inset 0 1px 0 rgba(255,255,255,.20);
+    }
+    .start-cta .cta-arrow {
+      display: inline-block;
+      transition: transform .25s ease;
+    }
+    .start-cta:hover:not(:disabled) .cta-arrow {
+      transform: translateX(5px);
+    }
+    .start-note {
+      position: relative;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .field { margin-top: 18px; }
+    .field label { display: block; margin-bottom: 8px; color: #374151; font-size: 13px; font-weight: 850; }
+    .field .required { color: var(--danger); }
+
+    .input {
+      width: 100%;
+      border: 2px solid rgba(17,24,39,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.88);
+      color: var(--deep);
+      padding: 14px 15px;
+      outline: none;
+      transition: .22s ease;
+    }
+
+    .input:focus { border-color: rgba(15,76,92,.70); box-shadow: 0 0 0 4px rgba(15,76,92,.11); }
+    .input.error { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(190,18,60,.08); }
+
+    .error-text { display: none; margin-top: 6px; color: var(--danger); font-size: 12px; font-weight: 750; }
+    .error-text.visible { display: block; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+
+    .choice, .toggle {
+      text-align: left;
+      border: 2px solid rgba(17,24,39,.10);
+      border-radius: 18px;
+      background: rgba(255,255,255,.75);
+      color: var(--ink);
+      padding: 14px;
+      transition: .22s ease;
+    }
+
+    .choice:hover, .choice.active, .toggle:hover, .toggle.active {
+      transform: translateY(-3px);
+      border-color: rgba(15,76,92,.54);
+      background: rgba(232,240,242,.88);
+    }
+
+    .choice .emoji { display: block; font-size: 30px; margin-bottom: 7px; }
+    .choice strong, .toggle strong { display: block; font-size: 13px; font-weight: 950; }
+    .choice small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; font-weight: 650; }
+
+    .toggle-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .toggle { text-align: center; min-height: 54px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 950;
+      transition: transform .22s ease, filter .22s ease, opacity .22s ease;
+    }
+
+    .btn:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(1.03); }
+    .btn-primary { width: 100%; margin-top: 24px; color: white; background: linear-gradient(135deg, var(--deep), var(--accent)); box-shadow: 0 18px 36px rgba(15,76,92,.22); }
+    .btn-light { color: var(--deep); background: white; border: 1px solid rgba(17,24,39,.12); }
+    .btn-accent { color: white; background: var(--accent); }
+    .btn-gold { color: #3f2d05; background: var(--gold); }
+    .btn-ghost { color: var(--deep); background: rgba(255,255,255,.60); border: 1px solid rgba(17,24,39,.12); }
+
+    .topbar { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; border-radius: var(--radius); padding: 14px; margin-bottom: 16px; }
+    .player { display: flex; align-items: center; gap: 13px; }
+    .player-avatar { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 19px; background: linear-gradient(135deg, rgba(20,184,166,.22), rgba(246,196,83,.30)); font-size: 31px; }
+    .player small, .hud small { color: var(--muted); font-weight: 750; }
+    .player strong { display: block; margin-top: 2px; color: var(--deep); font-size: 20px; font-weight: 1000; }
+
+    .hud-grid { display: grid; grid-template-columns: repeat(4, minmax(92px, 1fr)); gap: 9px; }
+    .hud { min-width: 92px; text-align: center; border: 1px solid rgba(17,24,39,.10); border-radius: 18px; background: rgba(255,255,255,.72); padding: 10px 12px; }
+    .hud strong { display: block; margin-top: 3px; font-size: 17px; font-weight: 1000; color: var(--deep); }
+
+    .game-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 16px; }
+    .map-panel, .quest-panel { border-radius: var(--radius); padding: 18px; }
+    .panel-title { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; color: var(--deep); font-size: 18px; font-weight: 1000; }
+
+    .path { display: grid; gap: 9px; }
+    .path-node { display: grid; grid-template-columns: 42px 1fr auto; gap: 10px; align-items: center; border: 1px solid rgba(17,24,39,.10); border-radius: 17px; background: rgba(255,255,255,.62); padding: 10px; transition: .22s ease; }
+    .path-node.active { border-color: rgba(15,76,92,.55); background: rgba(232,240,242,.88); transform: translateX(2px); }
+    .path-node.done { border-color: rgba(91,140,90,.32); background: rgba(237,245,237,.86); }
+    .node-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; background: rgba(255,255,255,.80); font-weight: 1000; font-size: 19px; }
+    .path-node strong { display: block; color: var(--deep); font-size: 13px; font-weight: 950; }
+    .path-node small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .node-tag { color: var(--accent); font-size: 11px; font-weight: 950; }
+
+    .progress-box { margin-top: 16px; border: 1px solid rgba(17,24,39,.10); border-radius: 18px; background: rgba(255,255,255,.62); padding: 14px; }
+    .progress-top { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; font-weight: 850; }
+    .progress-line { height: 12px; margin-top: 10px; overflow: hidden; border-radius: 999px; background: rgba(17,24,39,.08); }
+    .progress-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--gold)); transition: width .34s ease; }
+
+    .quest-inner { border-radius: 24px; background: rgba(255,255,255,.78); padding: 24px; }
+    .quest-top { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 18px; margin-bottom: 18px; }
+    .quest-title { margin-top: 8px; color: var(--deep); font-size: clamp(29px, 4vw, 48px); line-height: .95; letter-spacing: -.055em; font-weight: 1000; }
+
+    .relic-card { min-width: 190px; border: 1px solid rgba(17,24,39,.10); border-radius: 22px; background: rgba(255,255,255,.70); padding: 14px; text-align: center; }
+    .relic { font-size: 50px; animation: float 3.4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+    .relic-name { margin-top: 8px; color: var(--deep); font-weight: 950; }
+    .aura { height: 10px; margin-top: 9px; overflow: hidden; border-radius: 999px; background: rgba(17,24,39,.08); }
+    .aura-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width .35s ease; }
+
+    .section-intro { display: none; border-left: 4px solid var(--accent); border-radius: 0 18px 18px 0; background: rgba(232,240,242,.82); color: var(--accent); padding: 16px 18px; margin-bottom: 16px; font-size: 14px; line-height: 1.65; font-weight: 650; }
+    .section-intro.visible { display: block; }
+
+    .prompt { border: 1px solid rgba(17,24,39,.10); border-radius: 22px; background: rgba(255,255,255,.70); padding: 19px; color: var(--deep); font-size: 21px; line-height: 1.5; font-weight: 850; }
+    .tools { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .options { display: grid; gap: 11px; margin-top: 16px; }
+
+    .option { position: relative; display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; width: 100%; min-height: 80px; text-align: left; border: 2px solid rgba(17,24,39,.10); border-radius: 20px; background: rgba(255,255,255,.76); color: var(--deep); padding: 14px; transition: .22s ease; }
+    .option:hover:not(:disabled) { transform: translateY(-2px); border-color: rgba(15,76,92,.55); background: rgba(232,240,242,.86); }
+    .option.selected { border-color: rgba(15,76,92,.75); background: rgba(232,240,242,.96); box-shadow: 0 14px 38px rgba(15,76,92,.10); }
+    .option.disabled-soft { opacity: .42; filter: saturate(.7); }
+    .option-letter { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 15px; background: rgba(15,76,92,.08); color: var(--accent); font-size: 13px; font-weight: 1000; letter-spacing: .08em; }
+    .option-text { line-height: 1.42; font-weight: 760; }
+    .option-orb { width: 14px; height: 14px; border-radius: 999px; border: 2px solid rgba(15,76,92,.24); }
+    .option.selected .option-orb { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 0 5px rgba(15,76,92,.10); }
+
+    .feedback { display: none; margin-top: 16px; border: 1px solid rgba(17,24,39,.10); border-radius: 22px; background: rgba(255,255,255,.72); padding: 17px; animation: enter .25s ease both; }
+    .feedback.visible { display: block; }
+    .feedback strong { display: block; margin-bottom: 7px; text-transform: uppercase; letter-spacing: .20em; color: var(--accent); font-size: 12px; font-weight: 1000; }
+    .feedback p { color: #374151; line-height: 1.55; font-weight: 690; }
+
+    .affinity-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 14px; }
+    .affinity-mini { border: 1px solid rgba(17,24,39,.10); border-radius: 14px; background: rgba(255,255,255,.66); padding: 10px; font-size: 12px; font-weight: 850; }
+    .affinity-mini span { display: block; margin-top: 4px; font-size: 20px; font-weight: 1000; }
+    .feedback-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+
+    .result-wrap { min-height: calc(100vh - 48px); display: grid; place-items: center; }
+    .result-shell { width: min(920px, 100%); border-radius: 34px; padding: 18px; }
+    .result-inner { border-radius: 26px; background: rgba(255,255,255,.80); padding: 34px; text-align: center; }
+    .result-icon { width: 104px; height: 104px; display: grid; place-items: center; margin: 0 auto 18px; border-radius: 999px; background: linear-gradient(135deg, rgba(20,184,166,.20), rgba(246,196,83,.30)); font-size: 56px; }
+    .rank { margin-top: 8px; font-size: clamp(37px, 7vw, 74px); line-height: .92; color: var(--deep); letter-spacing: -.065em; font-weight: 1000; }
+    .tagline { margin-top: 8px; color: var(--muted); font-size: 18px; font-weight: 720; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; border-radius: 999px; padding: 8px 14px; color: var(--accent); background: rgba(232,240,242,.90); font-size: 12px; font-weight: 1000; letter-spacing: .10em; text-transform: uppercase; }
+
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; text-align: left; }
+    .result-card { border: 1px solid rgba(17,24,39,.10); border-radius: 22px; background: rgba(255,255,255,.72); padding: 20px; }
+    .result-card h3 { margin-bottom: 10px; color: var(--deep); font-size: 18px; font-weight: 1000; }
+    .result-card p { color: #3f4652; line-height: 1.65; font-size: 14px; font-weight: 560; }
+    .score-card { grid-column: 1 / -1; }
+
+    .score-row { margin-top: 13px; }
+    .score-label { display: flex; justify-content: space-between; gap: 12px; color: #374151; font-size: 13px; font-weight: 850; margin-bottom: 7px; }
+    .bar { height: 11px; overflow: hidden; border-radius: 999px; background: rgba(17,24,39,.08); }
+    .bar-fill { width: 0%; height: 100%; border-radius: inherit; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+    .bar-fill.p1 { background: var(--green); }
+    .bar-fill.p2 { background: var(--orange); }
+    .bar-fill.p3 { background: var(--blue); }
+    .bar-fill.p4 { background: var(--violet); }
+
+    .action-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+    .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px); z-index: 10; pointer-events: none; border: 1px solid rgba(17,24,39,.12); border-radius: 999px; background: rgba(255,255,255,.90); color: var(--deep); padding: 12px 16px; box-shadow: var(--shadow); opacity: 0; transition: .24s ease; font-weight: 950; backdrop-filter: blur(14px); }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .consent-box {
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 18px;
+      background: rgba(255,255,255,.64);
+      padding: 14px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: #374151;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 760;
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      accent-color: var(--accent);
+    }
+
+    .submission-status {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      margin: 18px auto 0;
+      max-width: 720px;
+      border: 1px solid rgba(17,24,39,.10);
+      border-radius: 18px;
+      background: rgba(255,255,255,.72);
+      padding: 13px 15px;
+      text-align: left;
+    }
+
+    .submission-status strong {
+      color: var(--deep);
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .submission-status span {
+      color: #4b5563;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 720;
+    }
+
+    .submission-status::before {
+      content: "⚙️";
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(15,76,92,.08);
+      color: var(--accent);
+      font-size: 20px;
+    }
+
+    .submission-status.pending::before { content: "⏳"; }
+    .submission-status.ok::before { content: "✅"; }
+    .submission-status.error::before { content: "⚠️"; }
+    .submission-status.idle::before { content: "🔌"; }
+
+    .pop { animation: pop .32s ease both; }
+    @keyframes pop { 0% { transform: scale(.98); } 55% { transform: scale(1.018); } 100% { transform: scale(1); } }
+    .shake { animation: shake .26s linear 2; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+    @media (max-width: 980px) {
+      .hero, .game-layout, .topbar, .quest-top { grid-template-columns: 1fr; }
+      .feature-grid, .hud-grid, .result-grid { grid-template-columns: 1fr 1fr; }
+      .relic-card { min-width: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .app { width: min(100% - 18px, 1180px); padding: 14px 0 36px; }
+      .feature-grid, .choice-grid, .two-col, .toggle-row, .hud-grid, .result-grid, .affinity-row { grid-template-columns: 1fr; }
+      .title { font-size: 48px; }
+      .inner, .quest-inner, .result-inner { padding: 20px; }
+      .option { grid-template-columns: 42px 1fr; }
+      .option-orb { display: none; }
+      .prompt { font-size: 18px; }
+      .submission-status { grid-template-columns: 1fr; text-align: center; }
+      .submission-status::before { margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient"></div>
+
+  <main class="app">
+    <section id="introScreen" class="screen active">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">🗺️ inditex italia · talent acquisition department</div>
+          <h1 class="title"><span>Scopri il tuo</span><em>profilo candidato</em></h1>
+          <p class="subtitle">Dopo la plenaria conoscitiva via Teams, questo percorso ti aiuta a raccontare preferenze, motivazioni e disponibilità. Non ci sono risposte giuste o sbagliate: il risultato serve a capire quale formula di lavoro può essere più adatta a te.</p>
+          <div class="feature-grid">
+            <div class="feature"><strong>🧭 Percorso</strong><span>10 domande in tre sezioni: chi sei, cosa cerchi, motivazioni.</span></div>
+            <div class="feature"><strong>💎 Preferenze</strong><span>Le risposte evidenziano disponibilità, orari e aspettative.</span></div>
+            <div class="feature"><strong>✨ Chiarezza</strong><span>Ogni scelta aiuta a leggere meglio cosa cerchi dal lavoro.</span></div>
+            <div class="feature"><strong>🏆 Risultato</strong><span>Alla fine ricevi un profilo con indicazioni utili per il follow-up.</span></div>
+          </div>
+        </div>
+        <div class="glass start-card">
+          <div class="inner start-inner">
+            <div class="intro-video" id="introVideo">
+              <video
+                id="introVideoEl"
+                src="intro-video.mp4"
+                poster="intro-poster.jpg"
+                playsinline
+                preload="metadata"
+                aria-label="Messaggio introduttivo del Direttore HR di Inditex Italia"
+              ></video>
+              <span class="intro-video-caption">People Design</span>
+              <button type="button" class="intro-video-play" id="introVideoPlay" aria-label="Riproduci il messaggio introduttivo">
+                <span class="intro-video-play-icon">▶</span>
+                <span class="intro-video-play-label">Guarda il messaggio</span>
+              </button>
+              <div class="intro-video-fallback" role="status">
+                <strong>Benvenuto nel test</strong>
+                <span>Il video introduttivo non è disponibile, ma puoi proseguire qui sotto.</span>
+              </div>
+            </div>
+            <div class="start-glow"></div>
+            <div class="start-orb">🧭</div>
+            <p class="start-eyebrow">Il tuo percorso</p>
+            <h2 class="start-title">Inizia il tuo percorso</h2>
+            <p class="start-sub">10 domande · 3 sezioni · 2 minuti per scoprire il tuo profilo.</p>
+            <div class="start-meta">
+              <div class="start-meta-item"><span>10</span><small>Domande</small></div>
+              <div class="start-meta-divider"></div>
+              <div class="start-meta-item"><span>~2′</span><small>Durata</small></div>
+              <div class="start-meta-divider"></div>
+              <div class="start-meta-item"><span>4</span><small>Profili</small></div>
+            </div>
+            <button class="btn btn-primary start-cta" onclick="goToForm()">Rispondi alle domande <span class="cta-arrow">→</span></button>
+            <p class="start-note">Non ci sono risposte giuste o sbagliate.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="formScreen" class="screen">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">📜 Scheda candidato</div>
+          <h1 class="title">Prima di iniziare, <em>presentati</em></h1>
+          <p class="subtitle">Questi dati alimentano la scheda finale. Quando collegherai l’URL di Power Automate, il risultato verrà inviato al flusso per l’archiviazione su SharePoint.</p>
+        </div>
+        <div class="glass">
+          <div class="inner">
+            <div class="card-head">
+              <div><p class="mini">Registrazione</p><h2>Dati candidato</h2></div>
+              <div class="avatar-orb">🪪</div>
+            </div>
+            <div class="two-col">
+              <div class="field"><label>Nome <span class="required">*</span></label><input class="input" id="fieldNome" autocomplete="given-name" placeholder="Il tuo nome" /><div class="error-text" id="errorNome">Inserisci il tuo nome</div></div>
+              <div class="field"><label>Cognome <span class="required">*</span></label><input class="input" id="fieldCognome" autocomplete="family-name" placeholder="Il tuo cognome" /><div class="error-text" id="errorCognome">Inserisci il tuo cognome</div></div>
+            </div>
+            <div class="field"><label>Numero di telefono <span class="required">*</span></label><input class="input" id="fieldTelefono" autocomplete="tel" placeholder="+39 3XX XXX XXXX" /><div class="error-text" id="errorTelefono">Inserisci un numero di telefono valido</div></div>
+            <div class="field"><label>Hai già lavorato in Inditex? <span class="required">*</span></label><div class="toggle-row"><button class="toggle" id="toggleYes" onclick="selectInditex('Sì')"><strong>Sì</strong></button><button class="toggle" id="toggleNo" onclick="selectInditex('No')"><strong>No</strong></button></div><div class="error-text" id="errorInditex">Seleziona una risposta</div></div>
+            <div class="field consent-box" id="consentBox"><label class="check-row"><input type="checkbox" id="fieldPrivacy" /><span>Confermo di voler inviare le mie risposte al team HR per la gestione del percorso candidato e l’eventuale archiviazione su SharePoint. <span class="required">*</span></span></label><div class="error-text" id="errorPrivacy">Conferma l’invio dei dati per proseguire</div></div>
+            <button class="btn btn-primary" onclick="submitForm()">Avanti — inizia il test 🗺️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <header class="topbar">
+        <div class="player"><div id="playerAvatar" class="player-avatar">🧭</div><div><small>Candidato</small><strong id="playerLabel">Player</strong></div></div>
+        <div class="hud-grid">
+          <div class="hud"><small>Missione</small><strong id="missionHud">1/10</strong></div>
+          <div class="hud"><small>Insight</small><strong id="insightHud">0</strong></div>
+          <div class="hud"><small>Progresso</small><strong id="progressHud">0%</strong></div>
+        </div>
+      </header>
+      <div class="game-layout">
+        <aside class="map-panel">
+          <div class="panel-title">🗺️ Mappa del percorso</div>
+          <div id="path" class="path"></div>
+          <div class="progress-box"><div class="progress-top"><span>Completamento</span><strong id="progressText">0%</strong></div><div class="progress-line"><div id="progressFill" class="progress-fill"></div></div></div>
+        </aside>
+        <section class="quest-panel">
+          <div id="questInner" class="quest-inner">
+            <div class="quest-top">
+              <div><p id="questionLabel" class="mini">Domanda 1</p><h2 id="questTitle" class="quest-title">Missione</h2></div>
+              <div class="relic-card"><div id="relicEmoji" class="relic">💎</div><div id="relicName" class="relic-name">Il tuo profilo</div><div class="aura"><div id="auraFill" class="aura-fill"></div></div></div>
+            </div>
+            <div id="sectionIntro" class="section-intro"></div>
+            <div id="prompt" class="prompt"></div>
+            <div class="tools"><button class="btn btn-ghost" onclick="goBack()">← Indietro</button></div>
+            <div id="options" class="options"></div>
+            <div id="feedback" class="feedback"><strong id="feedbackTitle"></strong><p id="feedbackText"></p><div id="affinityPreview" class="affinity-row"></div><div class="feedback-actions"><button id="nextButton" class="btn btn-accent" onclick="nextQuestion()">Prossima domanda →</button></div></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="result-wrap">
+        <div class="result-shell">
+          <div class="result-inner">
+            <div id="resultIcon" class="result-icon">🏆</div>
+            <p class="mini">Profilo sbloccato</p>
+            <h2 id="resultTitle" class="rank"></h2>
+            <p id="resultTagline" class="tagline"></p>
+            <div id="hybridBadge" class="badge"></div>
+            <div id="submissionStatus" class="submission-status idle"><strong>Power Automate</strong><span id="submissionStatusText">URL non ancora configurato: scarica il JSON o inviami l’URL del flusso per inserirlo nell’HTML.</span></div>
+            <div class="result-grid">
+              <div class="result-card"><h3>Chi sei</h3><p id="resultDescription"></p></div>
+              <div class="result-card"><h3>Cosa possiamo offrirti</h3><p id="resultAttraction"></p></div>
+              <div class="result-card score-card"><h3>Distribuzione profilo</h3><div id="scoreBreakdown"></div></div>
+            </div>
+            <div class="action-row"><button id="sendButton" class="btn btn-accent" onclick="submitToPowerAutomate(true)">↗ Invia a Power Automate</button><button class="btn btn-light" onclick="downloadProfile()">⬇ Scarica scheda candidato</button><button class="btn btn-ghost" onclick="downloadJson()">⬇ Scarica JSON</button><button class="btn btn-ghost" onclick="copySummary()">Copia riepilogo</button><button class="btn btn-ghost" onclick="restart()">↻ Ricomincia</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ============================================================
+    // CONFIGURAZIONE POWER AUTOMATE
+    // 1) Crea un flusso con trigger "When an HTTP request is received".
+    // 2) Copia l'URL HTTP POST generato dal trigger.
+    // 3) Sostituisci la stringa qui sotto e ricarica questo file su GitHub.
+    // Nota: con pagine statiche GitHub Pages è più stabile usare "no-cors".
+    // Nel flusso Power Automate, se ricevi il body come testo, usa json(triggerBody()).
+    // ============================================================
+    const POWER_AUTOMATE_ENDPOINT = "https://f64e537a8be94b0ab6d276748c9434.85.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1aba2955b1a548f380478adff20672fa/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nKU4TztpI72G2OHCzn6djJ7osnDE3_zUjeQy_HnBbNA";
+    const POWER_AUTOMATE_SEND_MODE = "no-cors"; // valori supportati: "no-cors" oppure "cors"
+
+    const questions = [
+  // ── SEZIONE A: CHI SEI ──
+  {
+    id: 1,
+    section: "Chi sei",
+    label: "DOMANDA 1",
+    text: "Stai attualmente frequentando un percorso di studi?",
+    options: [
+      { text: "Sì, frequento attivamente", scores: [3, 1, 0, 0] },
+      { text: "Sì, ma sono in pausa o ho rallentato", scores: [2, 2, 0, 0] },
+      { text: "Ho concluso gli studi", scores: [0, 0, 2, 2] },
+      { text: "Non ho proseguito dopo il diploma", scores: [0, 2, 1, 2] }
+    ]
+  },
+  {
+    id: 2,
+    section: "Chi sei",
+    label: "DOMANDA 2",
+    text: "Hai esperienza lavorativa in attività a contatto con il pubblico?",
+    options: [
+      { text: "Nessuna esperienza", scores: [1, 3, 0, 0] },
+      { text: "Qualche mese in ristorazione, bar o hospitality", scores: [2, 2, 1, 0] },
+      { text: "Esperienza in negozi o vendita, anche non nel settore moda", scores: [0, 0, 3, 1] },
+      { text: "Esperienza significativa nel retail, anche con ruoli di responsabilità", scores: [0, 0, 1, 3] }
+    ]
+  },
+  {
+    id: 3,
+    section: "Chi sei",
+    label: "DOMANDA 3",
+    text: "Quanto conta per te lavorare specificamente nel settore moda?",
+    options: [
+      { text: "Mi piace l'idea di lavorare per un brand che conosco e che mi rappresenta", scores: [3, 1, 0, 0] },
+      { text: "Non è determinante — cerco un buon ambiente di lavoro, il settore è secondario", scores: [0, 3, 1, 0] },
+      { text: "Molto — è il settore in cui voglio costruire la mia carriera", scores: [0, 0, 3, 1] },
+      { text: "È il mio settore — ci lavoro da anni e voglio continuare", scores: [0, 0, 1, 3] }
+    ]
+  },
+
+  // ── SEZIONE B: COSA CERCHI ──
+  {
+    id: 4,
+    section: "Cosa cerchi",
+    sectionIntro: "Le persone che lavorano con noi hanno situazioni e preferenze molto diverse tra loro. Non esistono risposte giuste o sbagliate — capire cosa funziona meglio per te ci aiuta a offrirti la formula più adatta.",
+    label: "DOMANDA 4",
+    text: "Immagina di ricevere due proposte: A) 24 ore settimanali con turni fissi e prevedibili, oppure B) 30 ore settimanali con turni variabili. Quale sceglieresti?",
+    options: [
+      { text: "Sicuramente A — la prevedibilità per me è fondamentale", scores: [3, 1, 0, 0] },
+      { text: "Probabilmente A, ma valuterei caso per caso", scores: [2, 2, 1, 0] },
+      { text: "Probabilmente B — più ore mi interessano", scores: [0, 0, 3, 1] },
+      { text: "Sicuramente B — più ore è sempre meglio", scores: [0, 0, 1, 3] }
+    ]
+  },
+  {
+    id: 5,
+    section: "Cosa cerchi",
+    label: "DOMANDA 5",
+    text: "Se potessi scegliere liberamente, quale combinazione descrive meglio la tua situazione ideale?",
+    options: [
+      { text: "Poche ore, massima flessibilità — il lavoro deve adattarsi ai miei impegni", scores: [3, 1, 0, 0] },
+      { text: "Un orario leggero va bene, non ho pretese particolari", scores: [1, 3, 0, 0] },
+      { text: "Vorrei un orario consistente, almeno 30 ore — il lavoro è la mia priorità", scores: [0, 0, 3, 1] },
+      { text: "Vorrei un orario pieno o quasi pieno, con una prospettiva di lungo periodo", scores: [0, 0, 1, 3] }
+    ]
+  },
+  {
+    id: 6,
+    section: "Cosa cerchi",
+    label: "DOMANDA 6",
+    text: "Cosa ha più peso nella tua scelta di un lavoro?",
+    options: [
+      { text: "La possibilità di gestire il mio tempo liberamente", scores: [3, 1, 0, 0] },
+      { text: "Un ambiente accogliente dove trovarmi bene", scores: [0, 3, 1, 0] },
+      { text: "Ore e responsabilità sufficienti per costruirci un percorso", scores: [0, 0, 3, 1] },
+      { text: "La sicurezza di un impegno continuativo e riconosciuto", scores: [0, 0, 1, 3] }
+    ]
+  },
+  {
+    id: 7,
+    section: "Cosa cerchi",
+    label: "DOMANDA 7",
+    text: "Ti viene proposto un rinnovo di 6 mesi, ma in un negozio diverso da quello attuale. Come reagisci?",
+    options: [
+      { text: "Non mi interessa, probabilmente non sarò più disponibile", scores: [3, 1, 0, 0] },
+      { text: "Dipende, devo pensarci con calma", scores: [1, 3, 0, 0] },
+      { text: "Mi interessa, anche se cambiare negozio non è il massimo", scores: [0, 0, 3, 1] },
+      { text: "Accetto volentieri — la continuità per me è importante", scores: [0, 0, 1, 3] }
+    ]
+  },
+
+  // ── SEZIONE C: PERCHÉ ──
+  {
+    id: 8,
+    section: "Le tue motivazioni",
+    label: "DOMANDA 8",
+    text: "Qual è la ragione principale per cui cerchi questo lavoro?",
+    options: [
+      { text: "Ho bisogno di mantenermi mentre studio", scores: [3, 0, 0, 0] },
+      { text: "Voglio fare un'esperienza e capire cosa mi piace", scores: [0, 3, 0, 0] },
+      { text: "Voglio iniziare un percorso professionale nel retail", scores: [0, 0, 3, 0] },
+      { text: "Cerco un lavoro stabile dove la mia esperienza venga valorizzata", scores: [0, 0, 0, 3] }
+    ]
+  },
+  {
+    id: 9,
+    section: "Le tue motivazioni",
+    label: "DOMANDA 9",
+    text: "Cosa conta di più per te in un ambiente di lavoro?",
+    options: [
+      { text: "Che sia compatibile con i miei altri impegni", scores: [3, 1, 0, 0] },
+      { text: "Che sia un ambiente giovane e stimolante dove imparare", scores: [0, 3, 1, 0] },
+      { text: "Che ci siano possibilità concrete di crescita professionale", scores: [0, 0, 3, 1] },
+      { text: "Che ci sia serietà, riconoscimento e sicurezza", scores: [0, 0, 1, 3] }
+    ]
+  },
+  {
+    id: 10,
+    section: "Le tue motivazioni",
+    label: "DOMANDA 10",
+    text: "Dove ti vedi tra due anni?",
+    options: [
+      { text: "A fare un lavoro legato ai miei studi", scores: [3, 0, 0, 0] },
+      { text: "Non lo so ancora, sto esplorando", scores: [0, 3, 0, 0] },
+      { text: "Cresciuto/a in un ruolo di maggiore responsabilità nel retail", scores: [0, 0, 3, 0] },
+      { text: "Nella stessa azienda, con un contratto stabile e un ruolo riconosciuto", scores: [0, 0, 0, 3] }
+    ]
+  }
+];
+
+    const personas = [
+  {
+    id: 1,
+    name: "Studente-Lavoratore",
+    tagline: "Lavoro per pagarmi gli studi",
+    color: "p1",
+    className: "persona-1",
+    description: "Sei una persona che sta investendo nel proprio futuro attraverso lo studio, e il lavoro è lo strumento che ti permette di farlo. Cerchi flessibilità, compatibilità con i tuoi impegni accademici, e un ambiente che rispetti i tuoi tempi. Per te il brand e l'esperienza contano più della durata del contratto.",
+    attraction: "Orari flessibili e compatibili con le sessioni d'esame. Contratti brevi ma con possibilità di riassunzione. Il brand come leva identitaria."
+  },
+  {
+    id: 2,
+    name: "Giovane in Esplorazione",
+    tagline: "Sto cercando di capire cosa voglio fare",
+    color: "p2",
+    className: "persona-2",
+    description: "Sei all'inizio del tuo percorso professionale e stai esplorando. Non hai ancora una direzione precisa, ma sei disponibile e aperto/a a metterti in gioco. Cerchi un primo ingresso nel mondo del lavoro, un ambiente accogliente e un'esperienza da mettere nel CV.",
+    attraction: "Formazione strutturata fin dal primo giorno. Ambiente giovane e supportivo. Nessuna esperienza richiesta — ti formiamo noi."
+  },
+  {
+    id: 3,
+    name: "Aspirante Retail Professional",
+    tagline: "Voglio fare carriera nel retail",
+    color: "p3",
+    className: "persona-3",
+    description: "Hai le idee chiare: vuoi costruirti un percorso professionale nel retail. Hai già esperienza, cerchi più ore, più responsabilità e un career path visibile. Per te il lavoro non è una parentesi — è il punto di partenza per crescere.",
+    attraction: "Percorso di carriera trasparente. Contratti d'ingresso di almeno 3-6 mesi. Incremento orario legato alla performance. Riconoscimento delle competenze."
+  },
+  {
+    id: 4,
+    name: "Professionista Retail Senior",
+    tagline: "Ho esperienza, cerco stabilità",
+    color: "p4",
+    className: "persona-4",
+    description: "Porti con te un bagaglio di esperienza significativo nel commercio e nel retail. Cerchi stabilità contrattuale, riconoscimento professionale e un contesto che valorizzi quello che sai fare. Per te contano la sicurezza economica e un impegno orario adeguato.",
+    attraction: "Proposta contrattuale differenziata: minimo 3-6 mesi. Fast-track per chi ha background manageriale. Comunicare benefit concreti: sconto, welfare, formazione continua."
+  }
+];
+
+    const personaMeta = [
+      { short: "Flessibilità", emoji: "🎓" },
+      { short: "Esplorazione", emoji: "🧭" },
+      { short: "Crescita", emoji: "🚀" },
+      { short: "Stabilità", emoji: "🏆" }
+    ];
+
+    personas.forEach((p, i) => {
+      p.short = personaMeta[i].short;
+      p.emoji = personaMeta[i].emoji;
+    });
+
+    const missionMeta = [
+      ["🎓", "Il bivio degli studi"],
+      ["🤝", "La prova del pubblico"],
+      ["👕", "Il richiamo della moda"],
+      ["⏱️", "Il patto degli orari"],
+      ["⚖️", "La bilancia delle priorità"],
+      ["🧩", "La chiave della scelta"],
+      ["🔁", "Il portale del rinnovo"],
+      ["🔥", "La scintilla iniziale"],
+      ["🏪", "Il negozio ideale"],
+      ["🔮", "Lo specchio dei due anni"]
+    ];
+
+    questions.forEach((q, i) => {
+      q.relic = missionMeta[i]?.[0] || "💎";
+      q.mission = missionMeta[i]?.[1] || q.label;
+    });
+
+    const state = {
+      candidate: { nome: "", cognome: "", telefono: "", exInditex: null, privacyConsent: false },
+      current: 0,
+      answers: new Array(questions.length).fill(null),
+      insight: 0,
+      lastResult: null,
+      submission: { sent: false, confirmed: false, lastError: null, lastPayload: null }
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const els = {
+      intro: $("introScreen"), form: $("formScreen"), game: $("gameScreen"), result: $("resultScreen"),
+      playerAvatar: $("playerAvatar"), playerLabel: $("playerLabel"),
+      missionHud: $("missionHud"), insightHud: $("insightHud"), progressHud: $("progressHud"),
+      path: $("path"), progressText: $("progressText"), progressFill: $("progressFill"), questInner: $("questInner"),
+      questionLabel: $("questionLabel"), questTitle: $("questTitle"), relicEmoji: $("relicEmoji"), relicName: $("relicName"), auraFill: $("auraFill"),
+      sectionIntro: $("sectionIntro"), prompt: $("prompt"), options: $("options"), feedback: $("feedback"),
+      feedbackTitle: $("feedbackTitle"), feedbackText: $("feedbackText"), affinityPreview: $("affinityPreview"), nextButton: $("nextButton"),
+      resultIcon: $("resultIcon"), resultTitle: $("resultTitle"), resultTagline: $("resultTagline"), hybridBadge: $("hybridBadge"),
+      resultDescription: $("resultDescription"), resultAttraction: $("resultAttraction"), scoreBreakdown: $("scoreBreakdown"),
+      submissionStatus: $("submissionStatus"), submissionStatusText: $("submissionStatusText"), sendButton: $("sendButton"), toast: $("toast")
+    };
+
+    function showScreen(name) {
+      [els.intro, els.form, els.game, els.result].forEach((screen) => screen.classList.remove("active"));
+      if (name === "intro") els.intro.classList.add("active");
+      if (name === "form") els.form.classList.add("active");
+      if (name === "game") els.game.classList.add("active");
+      if (name === "result") els.result.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goToForm() { showScreen("form"); }
+
+    function selectInditex(value) {
+      state.candidate.exInditex = value;
+      $("toggleYes").classList.toggle("active", value === "Sì");
+      $("toggleNo").classList.toggle("active", value === "No");
+      $("errorInditex").classList.remove("visible");
+    }
+
+    function submitForm() {
+      const nome = $("fieldNome").value.trim();
+      const cognome = $("fieldCognome").value.trim();
+      const telefono = $("fieldTelefono").value.trim();
+      const privacyConsent = $("fieldPrivacy").checked;
+      let valid = true;
+
+      [["Nome", nome, $("fieldNome")], ["Cognome", cognome, $("fieldCognome")], ["Telefono", telefono.replace(/\D/g, "").length >= 8 ? telefono : "", $("fieldTelefono")]].forEach(([label, value, input]) => {
+        const error = $("error" + label);
+        error.classList.remove("visible");
+        input.classList.remove("error");
+        if (!value) { error.classList.add("visible"); input.classList.add("error"); valid = false; }
+      });
+
+      $("errorInditex").classList.remove("visible");
+      if (state.candidate.exInditex === null) { $("errorInditex").classList.add("visible"); valid = false; }
+      $("errorPrivacy").classList.remove("visible");
+      $("consentBox").classList.remove("shake");
+      if (!privacyConsent) { $("errorPrivacy").classList.add("visible"); $("consentBox").classList.add("shake"); valid = false; }
+      if (!valid) { els.form.classList.add("shake"); setTimeout(() => { els.form.classList.remove("shake"); $("consentBox").classList.remove("shake"); }, 520); return; }
+
+      state.candidate.nome = nome;
+      state.candidate.cognome = cognome;
+      state.candidate.telefono = telefono;
+      state.candidate.privacyConsent = privacyConsent;
+      state.current = 0;
+      state.answers = new Array(questions.length).fill(null);
+      state.insight = 0;
+      state.submission = { sent: false, confirmed: false, lastError: null, lastPayload: null };
+      showScreen("game");
+      renderQuestion();
+    }
+
+    function renderHud() {
+      const answered = state.answers.filter((answer) => answer !== null).length;
+      const pct = Math.round((answered / questions.length) * 100);
+      els.playerAvatar.textContent = "🧭";
+      els.playerLabel.textContent = `${state.candidate.nome} ${state.candidate.cognome}`;
+      els.missionHud.textContent = `${Math.min(state.current + 1, questions.length)}/${questions.length}`;
+      els.insightHud.textContent = state.insight;
+      els.progressHud.textContent = `${pct}%`;
+      els.progressText.textContent = `${pct}%`;
+      els.progressFill.style.width = `${pct}%`;
+    }
+
+    function firstUnansweredIndex() {
+      const idx = state.answers.findIndex((answer) => answer === null);
+      return idx === -1 ? questions.length - 1 : idx;
+    }
+
+    function renderPath() {
+      els.path.innerHTML = "";
+      questions.forEach((q, index) => {
+        const done = state.answers[index] !== null;
+        const active = index === state.current;
+        const node = document.createElement("div");
+        node.className = `path-node ${done ? "done" : ""} ${active ? "active" : ""}`;
+        node.innerHTML = `<div class="node-icon">${done ? "✓" : active ? q.relic : "🔒"}</div><div><strong>${q.mission}</strong><small>${q.section}</small></div><div class="node-tag">${done ? "+Insight" : ""}</div>`;
+        node.addEventListener("click", () => { if (index <= firstUnansweredIndex()) { state.current = index; renderQuestion(); } });
+        els.path.appendChild(node);
+      });
+    }
+
+    function getScores() {
+      const scores = [0, 0, 0, 0];
+      state.answers.forEach((answerIdx, qIdx) => {
+        if (answerIdx !== null) {
+          const optionScores = questions[qIdx].options[answerIdx].scores;
+          optionScores.forEach((score, i) => scores[i] += score);
+        }
+      });
+      return scores;
+    }
+
+    function dominantPersona(scores) {
+      const max = Math.max(...scores);
+      const index = scores.indexOf(max);
+      return { persona: personas[index], index, max };
+    }
+
+    function renderQuestion() {
+      if (state.current >= questions.length) { showResults(); return; }
+      const q = questions[state.current];
+      const selected = state.answers[state.current];
+      const prevSection = state.current > 0 ? questions[state.current - 1].section : null;
+      const shouldShowIntro = Boolean(q.sectionIntro && q.section !== prevSection);
+
+      els.questionLabel.textContent = q.label;
+      els.questTitle.textContent = q.mission;
+      els.relicEmoji.textContent = q.relic;
+      els.relicName.textContent = state.candidate.nome ? `${state.candidate.nome} profilo` : "Il tuo profilo";
+      els.prompt.textContent = q.text;
+      els.auraFill.style.width = selected !== null ? "100%" : "0%";
+      els.sectionIntro.textContent = shouldShowIntro ? q.sectionIntro : "";
+      els.sectionIntro.classList.toggle("visible", shouldShowIntro);
+      els.nextButton.textContent = state.current === questions.length - 1 ? "Sblocca il profilo 🏆" : "Prossima domanda →";
+      els.feedback.classList.toggle("visible", selected !== null);
+
+      els.options.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = `option ${selected === index ? "selected" : ""} ${selected !== null && selected !== index ? "disabled-soft" : ""}`;
+        btn.innerHTML = `<div class="option-letter">${String.fromCharCode(65 + index)}</div><div class="option-text">${option.text}</div><div class="option-orb"></div>`;
+        btn.addEventListener("click", () => selectOption(index));
+        els.options.appendChild(btn);
+      });
+
+      if (selected !== null) renderFeedback(q.options[selected]);
+      renderPath();
+      renderHud();
+    }
+
+    function selectOption(index) {
+      const wasEmpty = state.answers[state.current] === null;
+      state.answers[state.current] = index;
+      if (wasEmpty) state.insight += Math.max(...questions[state.current].options[index].scores);
+      els.questInner.classList.add("pop");
+      setTimeout(() => els.questInner.classList.remove("pop"), 360);
+      renderQuestion();
+      toast("💎 Scelta registrata");
+    }
+
+    function renderFeedback(option) {
+      const info = dominantPersona(option.scores);
+      els.feedbackTitle.textContent = `Affinità rilevata: ${info.persona.short}`;
+      els.feedbackText.textContent = "La tua scelta ha aggiunto energia alla mappa profilo. Puoi proseguire o tornare indietro per modificare la risposta.";
+      els.affinityPreview.innerHTML = "";
+      personas.forEach((p, i) => {
+        const item = document.createElement("div");
+        item.className = "affinity-mini";
+        item.innerHTML = `${p.emoji} ${p.short}<span>+${option.scores[i]}</span>`;
+        els.affinityPreview.appendChild(item);
+      });
+    }
+
+    function goBack() {
+      if (state.current > 0) { state.current -= 1; renderQuestion(); }
+      else showScreen("form");
+    }
+
+    function nextQuestion() {
+      if (state.answers[state.current] === null) { toast("Scegli una risposta per continuare"); return; }
+      if (state.current < questions.length - 1) { state.current += 1; renderQuestion(); }
+      else showResults();
+    }
+
+    function calculateResult() {
+      const scores = getScores();
+      const maxScore = Math.max(...scores);
+      const winnerIdx = scores.indexOf(maxScore);
+      const winner = personas[winnerIdx];
+      const sorted = [...scores].sort((a, b) => b - a);
+      const isHybrid = sorted[1] >= sorted[0] * 0.85;
+      let secondIdx = null;
+      if (isHybrid) {
+        secondIdx = scores.indexOf(sorted[1]);
+        if (secondIdx === winnerIdx) secondIdx = scores.lastIndexOf(sorted[1]);
+      }
+      return { scores, maxScore, winnerIdx, winner, isHybrid, secondIdx };
+    }
+
+
+    function isPowerAutomateConfigured() {
+      return Boolean(
+        POWER_AUTOMATE_ENDPOINT &&
+        POWER_AUTOMATE_ENDPOINT.startsWith("https://") &&
+        !POWER_AUTOMATE_ENDPOINT.includes("INCOLLA_QUI_URL_POWER_AUTOMATE")
+      );
+    }
+
+    function setSubmissionStatus(kind, message) {
+      if (!els.submissionStatus || !els.submissionStatusText) return;
+      els.submissionStatus.classList.remove("idle", "pending", "ok", "error");
+      els.submissionStatus.classList.add(kind || "idle");
+      els.submissionStatusText.textContent = message;
+      if (els.sendButton) {
+        const disabled = kind === "pending" || (state.submission.sent && !state.submission.lastError);
+        els.sendButton.disabled = disabled;
+        els.sendButton.textContent = kind === "pending" ? "Invio in corso..." : state.submission.sent ? "↗ Dati inviati" : "↗ Invia a Power Automate";
+      }
+    }
+
+    function getAnswerDetails() {
+      return state.answers.map((answerIdx, qIdx) => {
+        const q = questions[qIdx];
+        const selected = answerIdx !== null ? q.options[answerIdx] : null;
+        return {
+          id: q.id,
+          section: q.section,
+          label: q.label,
+          mission: q.mission,
+          question: q.text,
+          selectedIndex: answerIdx,
+          selectedLetter: answerIdx !== null ? String.fromCharCode(65 + answerIdx) : null,
+          answerText: selected ? selected.text : null,
+          optionScores: selected ? selected.scores : [0, 0, 0, 0]
+        };
+      });
+    }
+
+    function buildSubmissionPayload() {
+      const result = state.lastResult || calculateResult();
+      const totalPossible = questions.length * 3;
+      const secondPersona = result.isHybrid && result.secondIdx !== null && result.secondIdx !== result.winnerIdx ? personas[result.secondIdx] : null;
+      const scoreRows = personas.map((p, i) => ({
+        personaId: p.id,
+        persona: p.name,
+        short: p.short,
+        score: result.scores[i],
+        percent: Math.round((result.scores[i] / totalPossible) * 100)
+      }));
+
+      return {
+        source: "github-pages-candidate-persona",
+        submittedAt: new Date().toISOString(),
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent,
+        candidate: {
+          nome: state.candidate.nome,
+          cognome: state.candidate.cognome,
+          telefono: state.candidate.telefono,
+          exInditex: state.candidate.exInditex,
+          privacyConsent: state.candidate.privacyConsent
+        },
+        result: {
+          personaId: result.winner.id,
+          persona: result.winner.name,
+          tagline: result.winner.tagline,
+          type: secondPersona ? `Profilo ibrido con tratti di ${secondPersona.name}` : "Profilo definito",
+          isHybrid: Boolean(secondPersona),
+          secondPersona: secondPersona ? secondPersona.name : null,
+          description: result.winner.description,
+          attraction: result.winner.attraction,
+          scores: scoreRows
+        },
+        answers: getAnswerDetails(),
+        summaryText: getSummaryText()
+      };
+    }
+
+    async function submitToPowerAutomate(manual = false) {
+      if (!isPowerAutomateConfigured()) {
+        setSubmissionStatus("idle", "URL Power Automate non ancora configurato. Inviami l’URL HTTP POST del flusso e lo inserirò nel file finale.");
+        toast("🔌 URL Power Automate mancante");
+        return;
+      }
+      if (state.submission.sent && !state.submission.lastError && !manual) return;
+
+      const payload = buildSubmissionPayload();
+      const body = JSON.stringify(payload);
+      state.submission.lastPayload = payload;
+      state.submission.lastError = null;
+      setSubmissionStatus("pending", "Invio dati al flusso Power Automate in corso...");
+
+      try {
+        if (POWER_AUTOMATE_SEND_MODE === "cors") {
+          const response = await fetch(POWER_AUTOMATE_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body
+          });
+          if (!response.ok) throw new Error(`Risposta HTTP ${response.status}`);
+          state.submission.sent = true;
+          state.submission.confirmed = true;
+          setSubmissionStatus("ok", "Dati inviati e confermati dal flusso Power Automate.");
+          toast("✅ Dati inviati");
+          return;
+        }
+
+        await fetch(POWER_AUTOMATE_ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
+          body,
+          keepalive: true
+        });
+        state.submission.sent = true;
+        state.submission.confirmed = false;
+        setSubmissionStatus("ok", "Richiesta inviata al flusso Power Automate. In modalità no-cors il browser non può leggere la conferma, ma il payload è stato spedito.");
+        toast("✅ Richiesta inviata");
+      } catch (error) {
+        state.submission.sent = false;
+        state.submission.lastError = error.message || String(error);
+        setSubmissionStatus("error", `Invio non riuscito: ${state.submission.lastError}. Scarica il JSON e verifica l’URL del flusso.`);
+        toast("⚠️ Invio non riuscito");
+      }
+    }
+
+    function showResults() {
+      const result = calculateResult();
+      state.lastResult = result;
+      els.resultIcon.textContent = result.winner.emoji;
+      els.resultTitle.textContent = result.winner.name;
+      els.resultTagline.textContent = `«${result.winner.tagline}»`;
+      els.hybridBadge.textContent = result.isHybrid && result.secondIdx !== null && result.secondIdx !== result.winnerIdx ? `Profilo ibrido con tratti di ${personas[result.secondIdx].name}` : "Profilo definito";
+      els.resultDescription.textContent = result.winner.description;
+      els.resultAttraction.textContent = result.winner.attraction;
+      const totalPossible = questions.length * 3;
+      els.scoreBreakdown.innerHTML = "";
+      personas.forEach((p, i) => {
+        const pct = Math.round((result.scores[i] / totalPossible) * 100);
+        const row = document.createElement("div");
+        row.className = "score-row";
+        row.innerHTML = `<div class="score-label"><span>${p.emoji} ${p.name}</span><span>${result.scores[i]} pt (${pct}%)</span></div><div class="bar"><div class="bar-fill ${p.color}" data-width="${pct}"></div></div>`;
+        els.scoreBreakdown.appendChild(row);
+      });
+      showScreen("result");
+      setSubmissionStatus(isPowerAutomateConfigured() ? "pending" : "idle", isPowerAutomateConfigured() ? "Preparazione invio automatico a Power Automate..." : "URL non ancora configurato: scarica il JSON o inviami l’URL HTTP POST del flusso per inserirlo nell’HTML finale.");
+      setTimeout(() => document.querySelectorAll(".bar-fill").forEach((bar) => bar.style.width = bar.dataset.width + "%"), 180);
+      setTimeout(() => submitToPowerAutomate(false), 350);
+    }
+
+    function getSummaryText() {
+      const result = state.lastResult || calculateResult();
+      const second = result.isHybrid && result.secondIdx !== null && result.secondIdx !== result.winnerIdx ? `Profilo ibrido con tratti di ${personas[result.secondIdx].name}` : "Profilo definito";
+      return [
+        "Inditex Italia — Candidato Persona Test",
+        `Nome: ${state.candidate.nome} ${state.candidate.cognome}`,
+        `Telefono: ${state.candidate.telefono}`,
+        `Ha già lavorato in Inditex: ${state.candidate.exInditex}`,
+        `Profilo: ${result.winner.name}`,
+        `Tagline: ${result.winner.tagline}`,
+        `Tipo: ${second}`,
+        "",
+        "Punteggi:",
+        ...personas.map((p, i) => `- ${p.name}: ${result.scores[i]} pt`),
+        "",
+        `Descrizione: ${result.winner.description}`,
+        `Cosa offrire: ${result.winner.attraction}`
+      ].join("\n");
+    }
+
+    function downloadProfile() {
+      const blob = new Blob([getSummaryText()], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeName = `${state.candidate.nome}_${state.candidate.cognome}`.replace(/[^a-z0-9_-]+/gi, "_");
+      a.href = url;
+      a.download = `scheda-candidato-${safeName || "profilo"}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast("⬇ Scheda scaricata");
+    }
+
+
+    function downloadJson() {
+      const payload = state.lastResult ? buildSubmissionPayload() : { error: "Risultato non ancora disponibile" };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeName = `${state.candidate.nome}_${state.candidate.cognome}`.replace(/[^a-z0-9_-]+/gi, "_");
+      a.href = url;
+      a.download = `payload-power-automate-${safeName || "candidato"}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast("⬇ JSON scaricato");
+    }
+
+    function copySummary() {
+      const text = getSummaryText();
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => toast("Riepilogo copiato"));
+      else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        toast("Riepilogo copiato");
+      }
+    }
+
+    function restart() {
+      state.current = 0;
+      state.answers = new Array(questions.length).fill(null);
+      state.insight = 0;
+      state.lastResult = null;
+      ["fieldNome", "fieldCognome", "fieldTelefono"].forEach((id) => { const input = $(id); input.value = ""; input.classList.remove("error"); });
+      ["errorNome", "errorCognome", "errorTelefono", "errorInditex", "errorPrivacy"].forEach((id) => $(id).classList.remove("visible"));
+      $("fieldPrivacy").checked = false;
+      $("toggleYes").classList.remove("active");
+      $("toggleNo").classList.remove("active");
+      state.candidate = { nome: "", cognome: "", telefono: "", exInditex: null, privacyConsent: false };
+      state.submission = { sent: false, confirmed: false, lastError: null, lastPayload: null };
+      showScreen("intro");
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      setTimeout(() => els.toast.classList.remove("show"), 1700);
+    }
+
+    try {
+      (function setupIntroVideo() {
+        const wrap = document.getElementById("introVideo");
+        const video = document.getElementById("introVideoEl");
+        const playBtn = document.getElementById("introVideoPlay");
+        if (!wrap || !video || !playBtn) return;
+
+        const showFallback = function () { wrap.classList.add("failed"); };
+        video.addEventListener("error", showFallback);
+
+        playBtn.addEventListener("click", function () {
+          try {
+            video.muted = false;
+            video.currentTime = 0;
+            const p = video.play();
+            if (p && typeof p.then === "function") {
+              p.then(function () {
+                wrap.classList.add("playing");
+              }).catch(function () {
+                video.muted = true;
+                const p2 = video.play();
+                if (p2 && typeof p2.then === "function") {
+                  p2.then(function () { wrap.classList.add("playing"); })
+                    .catch(function () { showFallback(); });
+                }
+              });
+            } else {
+              wrap.classList.add("playing");
+            }
+          } catch (e) {
+            showFallback();
+          }
+        });
+
+        video.addEventListener("ended", function () {
+          wrap.classList.remove("playing");
+          const label = playBtn.querySelector(".intro-video-play-label");
+          if (label) label.textContent = "Rivedi il messaggio";
+        });
+      })();
+    } catch (e) {
+      // Se qualunque cosa fallisce nel setup del video, non blocchiamo il resto della pagina
+      console.warn("Intro video setup failed:", e);
+    }
+  </script>
+</body>
+</html>
